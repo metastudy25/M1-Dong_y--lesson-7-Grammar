@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDEN Grammar Lab · 중1 Lesson 7</title>
+<style>
+:root{
+  --bg:#f5f3ee;--card:#ffffff;--ink:#18202f;--sub:#5b6374;--mute:#8d93a0;
+  --line:#e3e0d8;--line2:#efede7;
+  --navy:#16213a;--navy2:#24345a;--accent:#2b59c3;--accent-d:#1e429a;--accent-soft:#e9eefb;
+  --gold:#c49a3c;--gold-soft:#f7efdc;
+  --ok:#1d8656;--ok-soft:#e6f4ec;--no:#c4413a;--no-soft:#fbeceb;
+  --font:'Malgun Gothic','맑은 고딕','Apple SD Gothic Neo',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{font-family:var(--font);color:var(--ink);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
+button,input{font-family:var(--font);font-size:inherit;color:inherit;letter-spacing:inherit}
+button{cursor:pointer;border:none;background:none}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 56px}
+.hidden{display:none!important}
+
+.hdr{position:sticky;top:0;z-index:20;background:rgba(245,243,238,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hdr-in{max-width:860px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.mark{width:30px;height:30px;border-radius:8px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.brand b{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.brand span{font-size:12px;color:var(--mute);display:block;line-height:1.2}
+.hdr-actions{display:flex;gap:6px}
+.lnk{padding:7px 12px;border-radius:8px;font-size:13px;color:var(--sub);font-weight:700}
+.lnk:hover{background:#ebe8e1;color:var(--ink)}
+
+.btn{padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;transition:background .15s,transform .08s}
+.btn:active{transform:scale(.98)}
+.btn-pri{background:var(--navy);color:#fff}
+.btn-pri:hover{background:var(--navy2)}
+.btn-sec{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn-sec:hover{border-color:#cfcbc1}
+.btn[disabled]{opacity:.4;cursor:default}
+
+.hero{margin-top:20px;background:var(--navy);color:#f4f1ea;border-radius:18px;padding:28px 26px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:1px solid rgba(255,255,255,.08);box-shadow:0 0 0 30px rgba(255,255,255,.025),0 0 0 60px rgba(255,255,255,.02)}
+.eyebrow{font-size:12px;letter-spacing:.5px;color:#a9b4cc;font-weight:700}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:-.8px;margin:6px 0 12px;line-height:1.3}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:5px 10px;border-radius:99px;border:1px solid rgba(255,255,255,.18);color:#dfe5f2}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#1b1b1b;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:14px}
+.kpi{background:#fff;padding:14px 16px}
+.kpi .k{font-size:12px;color:var(--mute);font-weight:700}
+.kpi .v{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-top:2px}
+.kpi .v small{font-size:13px;color:var(--mute);font-weight:700;margin-left:2px}
+
+.sec-title{font-size:13px;color:var(--mute);font-weight:800;margin:26px 2px 10px;letter-spacing:.3px}
+.stages{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.st{width:100%;display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;padding:16px 18px;text-align:left;border-bottom:1px solid var(--line2);transition:background .12s}
+.st:last-child{border-bottom:none}
+.st:hover{background:#faf9f6}
+.st .no{font-size:22px;font-weight:800;color:#c9c5bb;letter-spacing:-.5px}
+.st.done .no{color:var(--accent)}
+.st h3{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.st p{font-size:13px;color:var(--sub);line-height:1.5;margin-top:1px}
+.st .rt{text-align:right;min-width:82px}
+.st .pct{font-size:13px;font-weight:800;color:var(--ink)}
+.st .pct.none{color:var(--mute);font-weight:700}
+.mbar{height:4px;background:var(--line2);border-radius:99px;overflow:hidden;margin-top:6px;width:82px;margin-left:auto}
+.mbar div{height:100%;background:var(--accent);border-radius:99px}
+.wrong-row{margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.wrong-row b{font-size:15px}
+.wrong-row span{font-size:13px;color:var(--sub);display:block}
+
+.phead{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:24px 0 14px;flex-wrap:wrap}
+.phead .eyebrow{color:var(--mute)}
+.phead h2{font-size:22px;font-weight:800;letter-spacing:-.6px;line-height:1.3}
+.stats{display:flex;gap:6px;flex-wrap:wrap}
+.stat{font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);color:var(--sub)}
+.stat b{color:var(--ink)}
+.track{height:3px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:16px}
+.track div{height:100%;background:var(--accent);transition:width .3s}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px}
+.qno{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--accent)}
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--line2);color:var(--sub)}
+.tag.gold{background:var(--gold-soft);color:#8a6a1f}
+.tag.red{background:var(--no-soft);color:var(--no)}
+.qtext{font-size:17px;font-weight:700;line-height:1.65;margin:10px 0 14px;white-space:pre-line;letter-spacing:-.3px}
+.qbox{background:#faf9f6;border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.85;margin-bottom:16px;white-space:pre-line}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:10px;text-align:left;padding:13px 15px;border-radius:10px;border:1px solid var(--line);background:#fff;font-size:15px;line-height:1.55;white-space:pre-line;transition:border-color .12s,background .12s}
+.opt:hover:not([disabled]){border-color:#bfc8dc;background:#fbfcfe}
+.opt .m{font-weight:800;color:var(--mute);min-width:18px;flex-shrink:0}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .m{color:var(--accent)}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.correct .m{color:var(--ok)}
+.opt.wrong{border-color:var(--no);background:var(--no-soft)}
+.opt.wrong .m{color:var(--no)}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:12px;font-weight:800;color:var(--sub);margin-bottom:5px}
+.fld input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:16px;background:#fff;outline:none;transition:border-color .12s}
+.fld input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.fld input.ok{border-color:var(--ok);background:var(--ok-soft)}
+.fld input.no{border-color:var(--no);background:var(--no-soft)}
+.fb{margin-top:16px;border-radius:12px;padding:15px 16px;font-size:14px;line-height:1.75;border:1px solid}
+.fb.good{background:var(--ok-soft);border-color:#bfe3cf}
+.fb.bad{background:var(--no-soft);border-color:#f0c9c6}
+.fb .h{font-weight:800;font-size:15px;margin-bottom:3px}
+.fb.good .h{color:var(--ok)}.fb.bad .h{color:var(--no)}
+.fb .a{font-weight:800}
+.fb .exp{color:var(--sub);margin-top:4px}
+.acts{display:flex;justify-content:space-between;gap:8px;margin-top:18px;flex-wrap:wrap}
+.acts .r{display:flex;gap:8px;margin-left:auto}
+
+.cpt p{margin-bottom:10px}
+.cpt h4{font-size:14px;font-weight:800;margin:14px 0 6px}
+.ex{background:#faf9f6;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0 12px;font-size:14.5px;line-height:1.85}
+.ex .lbl{display:inline-block;font-size:11px;font-weight:800;padding:2px 7px;border-radius:5px;background:var(--line2);color:var(--sub);margin-right:6px;vertical-align:1px}
+.ex .lbl.acc{background:var(--navy);color:#fff}
+.ok-t{color:var(--ok);font-weight:800}.no-t{color:var(--no);font-weight:800}
+.hl{color:var(--accent);font-weight:800}
+.note{font-size:14px;color:var(--sub);background:var(--gold-soft);border-radius:10px;padding:10px 13px;margin:8px 0}
+.warn-box{font-size:14px;background:var(--no-soft);border-radius:10px;padding:10px 13px;margin:8px 0;color:#7a2a26}
+.tw{overflow-x:auto;margin:6px 0 12px;border:1px solid var(--line);border-radius:10px}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px;min-width:380px}
+table.t th{background:#f3f1ec;text-align:left;font-weight:800;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:top;line-height:1.6}
+table.t tr:last-child td{border-bottom:none}
+.chk{margin-top:16px;border-top:1px solid var(--line2);padding-top:14px}
+.chk .q{font-size:14px;font-weight:800;margin-bottom:8px}
+.chk .q:before{content:"CHECK";font-size:10px;font-weight:800;color:#fff;background:var(--accent);padding:2px 6px;border-radius:4px;margin-right:8px;vertical-align:2px}
+.chk .row{display:flex;gap:6px;flex-wrap:wrap}
+.chk button{padding:8px 13px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-weight:700;background:#fff}
+.chk button.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.chk button.no{border-color:var(--no);background:var(--no-soft);color:var(--no)}
+.chk .msg{font-size:13px;margin-top:6px;color:var(--sub)}
+.dots{display:flex;gap:4px;justify-content:center;margin:16px 0 0}
+.dots span{width:6px;height:6px;border-radius:99px;background:#d6d2c8;transition:width .2s}
+.dots span.on{width:20px;background:var(--navy)}
+.ctabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.ctab{padding:7px 13px;border-radius:8px;border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--sub);background:#fff;transition:all .12s}
+.ctab.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sec-tabs{display:flex;gap:1px;background:var(--line);border-radius:12px 12px 0 0;overflow:hidden}
+.sec-tab{flex:1;padding:11px 8px;font-size:13px;font-weight:800;color:var(--sub);background:#f3f1ec;text-align:center;transition:all .12s;cursor:pointer}
+.sec-tab.on{background:var(--navy);color:#fff}
+.cpt-box{background:#fff;border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;padding:22px 20px}
+
+.sent{font-size:18px;line-height:1.7;text-align:center;padding:24px 8px 20px;letter-spacing:-.3px}
+.sent mark{background:none;color:var(--accent);font-weight:800;border-bottom:2px solid var(--accent);padding:0 1px}
+.choices{display:grid;gap:8px}
+.choices.c3{grid-template-columns:repeat(3,1fr)}
+.choices.c4{grid-template-columns:repeat(4,1fr)}
+.choices.c2{grid-template-columns:repeat(2,1fr)}
+.ch{padding:14px 6px;border-radius:10px;border:1px solid var(--line);background:#fff;font-weight:800;font-size:14px;transition:border-color .12s,background .12s;text-align:center}
+.ch small{display:block;font-size:11px;font-weight:600;color:var(--mute);margin-top:2px}
+.ch:hover:not([disabled]){border-color:var(--navy)}
+.ch.correct{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.ch.wrong{border-color:var(--no);background:var(--no-soft);color:var(--no)}
+.ch[disabled]{cursor:default}
+
+.speed-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.timebar{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.timebar div{height:100%;background:var(--navy);transition:width 1s linear}
+.timebar.warn div{background:var(--no)}
+.tnum{font-weight:800;font-size:15px;min-width:38px;text-align:right}
+.speed-card{position:relative}
+.flash-ok{animation:fok .35s}
+.flash-no{animation:fno .35s}
+@keyframes fok{0%{box-shadow:0 0 0 0 rgba(29,134,86,.45)}100%{box-shadow:0 0 0 14px rgba(29,134,86,0)}}
+@keyframes fno{0%{box-shadow:0 0 0 0 rgba(196,65,58,.45)}100%{box-shadow:0 0 0 14px rgba(196,65,58,0)}}
+.last{min-height:22px;text-align:center;font-size:13px;margin-top:12px;color:var(--sub)}
+
+.zone{min-height:62px;border:1px dashed #c8c3b7;border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;margin-bottom:14px;background:#fcfbf9}
+.zone .ph{color:var(--mute);font-size:13px;padding:8px 4px}
+.pool{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.blk{padding:9px 13px;border-radius:9px;border:1px solid var(--line);background:#fff;font-weight:700;font-size:15px;box-shadow:0 1px 0 var(--line)}
+.blk:hover{border-color:var(--navy)}
+.blk.used{visibility:hidden}
+.zone .blk{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{padding:7px 12px;border-radius:8px;font-size:13px;font-weight:700;background:#fff;border:1px solid var(--line);color:var(--sub)}
+.filters button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;margin-bottom:14px}
+.grid button{height:32px;border-radius:6px;font-size:11px;font-weight:800;background:#fff;border:1px solid var(--line);color:var(--mute)}
+.grid button.ok{background:var(--ok-soft);border-color:#a9d8bf;color:var(--ok)}
+.grid button.no{background:var(--no-soft);border-color:#ecbbb7;color:var(--no)}
+.grid button.cur{outline:2px solid var(--navy);outline-offset:1px;color:var(--ink)}
+
+.res{text-align:center;padding:36px 22px}
+.res .big{font-size:56px;font-weight:800;letter-spacing:-2px;line-height:1}
+.res .big small{font-size:20px;color:var(--mute);letter-spacing:0}
+.res h3{font-size:19px;font-weight:800;margin:12px 0 4px}
+.res p{color:var(--sub);font-size:14px}
+.res .acts{justify-content:center}
+.pill{display:inline-block;font-size:12px;font-weight:800;padding:4px 10px;border-radius:99px;background:var(--gold-soft);color:#8a6a1f;margin-top:10px}
+
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:700;z-index:60;animation:tin .2s}
+@keyframes tin{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+
+@media(max-width:600px){
+  .hero{padding:22px 18px}.hero h1{font-size:20px}
+  .kpi{padding:12px}.kpi .v{font-size:20px}
+  .card{padding:18px 16px}.qtext{font-size:15px}
+  .sent{font-size:15px;padding:16px 2px}
+  .choices.c3{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:repeat(10,1fr)}
+  .st{grid-template-columns:38px 1fr auto;padding:14px}
+  .st .no{font-size:18px}.st .rt{min-width:64px}.mbar{width:64px}
+  .brand span{display:none}
+  .sec-tab{font-size:12px;padding:9px 4px}
+  table.t{font-size:12.5px}
+}
+</style>
+</head>
+<body>
+<header class="hdr"><div class="hdr-in">
+  <div class="brand" onclick="home()">
+    <div class="mark">E</div>
+    <div><b>EDEN Grammar Lab</b><span>중1 · Lesson 7 · Find Your Dream</span></div>
+  </div>
+  <div class="hdr-actions">
+    <button class="lnk" onclick="home()">홈</button>
+    <button class="lnk" onclick="resetAll()">초기화</button>
+  </div>
+</div></header>
+<main class="wrap" id="app"></main>
+
+<script>
+/* ===== 저장 ===== */
+const KEY='edenM1L7';
+const store={
+  get(k,d){try{const v=localStorage.getItem(KEY+'_'+k);return v?JSON.parse(v):d;}catch(e){return d;}},
+  set(k,v){try{localStorage.setItem(KEY+'_'+k,JSON.stringify(v));}catch(e){}}
+};
+let prog=store.get('prog',{best:{},exam:{},wrong:[]});
+const save=()=>store.set('prog',prog);
+
+/* ===== 개념 데이터 ===== */
+const CPT_P1=[
+{tab:'기본 개념',title:'to부정사 부사적 용법이란?',body:`
+<p>6과에서 배운 to부정사 <b>명사적 용법</b>은 문장에서 주어·목적어·보어 역할을 했죠?<br>
+7과에서 배우는 <b class="hl">부사적 용법</b>은 동사나 형용사를 꾸며주는 <b>수식어 역할</b>입니다!</p>
+<div class="tw"><table class="t">
+<tr><th>용법</th><th>의미</th><th>위치</th><th>예문</th></tr>
+<tr><td><b>목적</b> ★</td><td>~하기 위해(서)</td><td>동사 뒤</td><td>I went there <b class="hl">to buy</b> some bread.</td></tr>
+<tr><td>감정의 원인</td><td>~해서, ~하여</td><td>감정 형용사 뒤</td><td>I'm glad <b class="hl">to meet</b> you.</td></tr>
+<tr><td>형용사 수식</td><td>~하기에</td><td>형용사 뒤</td><td>This is easy <b class="hl">to solve</b>.</td></tr>
+</table></div>
+<div class="note">★ 중1 내신 핵심은 <b>목적(~하기 위해)</b>! "~하기 위해서"를 넣어 자연스러우면 목적 용법</div>`,
+check:{q:'"나는 빵을 사기 위해 빵집에 갔다." → I went to the bakery ___ some bread.',o:['buy','to buy','buying','bought'],a:1}},
+
+{tab:'목적 용법',title:'목적을 나타내는 to부정사 — 교과서 핵심 예문',body:`
+<p><b class="hl">to + 동사원형</b> = <b>'~하기 위해(서)'</b></p>
+<div class="ex">
+A lot of people are working hard <b class="hl">to create</b> this movie.<br>
+(많은 사람들이 이 영화를 <b class="hl">만들기 위해</b> 열심히 일하고 있다.)<br><br>
+Olivia came to Seoul <b class="hl">to study</b> Korean.<br>
+(올리비아는 한국어를 <b class="hl">공부하기 위해</b> 서울에 왔다.)<br><br>
+Jenny ran fast <b class="hl">to catch</b> the train.<br>
+(제니는 기차를 <b class="hl">타기 위해</b> 빨리 달렸다.)<br><br>
+Anna travels around <b class="hl">to find</b> perfect places for shooting.<br>
+(안나는 촬영 완벽한 장소를 <b class="hl">찾기 위해</b> 여기저기 여행한다.)
+</div>
+<div class="note">💡 문두에 올 때: <b>To capture their happy moments,</b> I am going to use drones.<br>→ to부정사구가 앞에 오면 <b>콤마(,)</b> 필수!</div>`,
+check:{q:'"그들의 행복한 순간을 포착하기 위해 나는 드론을 사용할 예정이다." 문두 형태는?',o:['To capture their happy moments, I ...','Capture their happy moments, I ...','I to capture their happy moments ...','Capturing their happy moments I ...'],a:0}},
+
+{tab:'in order to',title:'in order to / so as to — 고난도 변환',body:`
+<p>목적을 나타내는 to부정사는 <b class="hl">in order to</b> 또는 <b class="hl">so as to</b>로 바꿔 쓸 수 있어요.</p>
+<div class="ex">
+She exercises every day <b class="hl">to stay</b> healthy.<br>
+= She exercises every day <b class="hl">in order to stay</b> healthy.<br>
+= She exercises every day <b class="hl">so as to stay</b> healthy.<br><br>
+He wore a coat <b class="hl">not to catch</b> a cold.<br>
+= He wore a coat <b class="hl">in order not to catch</b> a cold.<br>
+(감기에 걸리지 않기 위해서)
+</div>
+<div class="warn-box">❌ to부정사의 부정형: <b>not to + 동사원형</b> (to not ✗ → not to ✔)<br>
+Jake put on a warm scarf <b class="no-t">to not</b> catch a cold. ✗<br>
+Jake put on a warm scarf <b class="ok-t">not to</b> catch a cold. ✔</div>`,
+check:{q:'"건강을 유지하기 위해 그녀는 매일 운동한다." → She exercises every day ___ stay healthy.',o:['to','in order to','so as to','모두 가능'],a:3}},
+
+{tab:'용법 구별',title:'명사적 vs 부사적 — 내신 킬러 구별법',body:`
+<div class="tw"><table class="t">
+<tr><th></th><th>명사적 용법 (6과)</th><th>부사적 용법 (7과)</th></tr>
+<tr><td>역할</td><td>주어·목적어·보어</td><td>수식어 (부사)</td></tr>
+<tr><td>해석</td><td>~하는 것, ~하기</td><td>~하기 위해서</td></tr>
+<tr><td>위치</td><td>문장 핵심 성분</td><td>없어도 문장 성립</td></tr>
+</table></div>
+<div class="ex">
+I <b>want</b> <b class="hl">to play soccer</b>. → <b class="ok-t">명사적(목적어)</b><br>
+I went to the park <b class="hl">to play soccer</b>. → <b class="ok-t">부사적(목적)</b><br><br>
+My hobby is <b class="hl">to take pictures</b>. → <b class="ok-t">명사적(보어)</b><br>
+I bought a camera <b class="hl">to take pictures</b>. → <b class="ok-t">부사적(목적)</b>
+</div>
+<div class="note">💡 "~하기 위해서"를 넣어서 말이 되면 → <b>부사적 용법(목적)</b></div>`,
+check:{q:'"He is saving money to buy a new skateboard."에서 to buy의 용법은?',o:['명사적(주어)','명사적(목적어)','부사적(목적)','명사적(보어)'],a:2}},
+
+{tab:'킬러 포인트',title:'내신 단골 함정 — to부정사 부사적 용법',body:`
+<h4>함정 1: to 뒤 반드시 동사원형</h4>
+<div class="ex">
+<span class="lbl">틀림</span>We went to the restaurant <s>to having</s> dinner. ✗<br>
+<span class="lbl acc">맞음</span>We went to the restaurant <b class="hl">to have</b> dinner. ✔
+</div>
+<h4>함정 2: 부정형은 not to (to not ✗)</h4>
+<div class="ex">
+<span class="lbl">틀림</span>Jake put on a coat <s>to not</s> catch a cold. ✗<br>
+<span class="lbl acc">맞음</span>Jake put on a coat <b class="hl">not to</b> catch a cold. ✔
+</div>
+<h4>함정 3: for + 동명사 ≠ to부정사(목적)</h4>
+<div class="ex">
+<span class="lbl">틀림</span>She went to the mall <s>for buy</s> a new coat. ✗<br>
+<span class="lbl acc">맞음</span>She went to the mall <b class="hl">to buy</b> a new coat. ✔
+</div>
+<h4>함정 4: in order to + 동사원형</h4>
+<div class="ex">
+<span class="lbl">틀림</span>I got up early <s>in order to seeing</s> the sunrise. ✗<br>
+<span class="lbl acc">맞음</span>I got up early <b class="hl">in order to see</b> the sunrise. ✔
+</div>`,
+check:{q:'어법상 올바른 문장은?',o:['She went to the mall for buy a coat.','Tom ran to not miss the bus.','We got up early to seeing the sunrise.','He turned on the TV to watch the game.'],a:1}},
+];
+
+const CPT_P2=[
+{tab:'기본 개념',title:'시간 접속사 when / before / after',body:`
+<p>어떤 행동이 "언제" 일어났는지 나타내며 두 문장을 연결하는 <b class="hl">시간의 부사절 접속사</b>입니다.</p>
+<div class="tw"><table class="t">
+<tr><th>접속사</th><th>의미</th><th>핵심 예문</th></tr>
+<tr><td><b>when</b></td><td>~할 때</td><td>Max gets excited <b class="hl">when</b> people are around.</td></tr>
+<tr><td><b>before</b></td><td>~하기 전에</td><td>Wash your hands <b class="hl">before</b> you eat.</td></tr>
+<tr><td><b>after</b></td><td>~한 후에</td><td>My work begins <b class="hl">after</b> the shooting is over.</td></tr>
+</table></div>
+<div class="note">접속사 뒤에는 반드시 <b>주어 + 동사</b>가 있는 완전한 절! (before eat ✗ → before you eat ✔)</div>`,
+check:{q:'"촬영이 끝난 후에 내 일이 시작된다." → My work begins ___ the shooting is over.',o:['when','before','after','until'],a:2}},
+
+{tab:'콤마 규칙',title:'위치에 따른 콤마(,) 규칙 — 서술형 필수!',body:`
+<div class="tw"><table class="t">
+<tr><th>위치</th><th>콤마</th><th>예문</th></tr>
+<tr><td>부사절 <b>앞</b></td><td><b class="no-t">콤마(,) 필수!</b></td><td><b class="hl">When it rains,</b> don't forget your umbrella.</td></tr>
+<tr><td>부사절 <b>뒤</b></td><td><b class="ok-t">콤마 없음</b></td><td>Don't forget your umbrella <b class="hl">when it rains.</b></td></tr>
+</table></div>
+<div class="ex">
+<b class="hl">Before you eat,</b> you should wash your hands. ✔ (콤마 O — 앞에 위치)<br>
+You should wash your hands <b class="hl">before you eat.</b> ✔ (콤마 X — 뒤에 위치)<br><br>
+<b class="hl">After the heavy rain stopped,</b> the kids went outside. ✔<br>
+The kids went outside <b class="hl">after the heavy rain stopped.</b> ✔
+</div>`,
+check:{q:'콤마 쓰임이 어법상 올바른 것은?',o:['Before you eat, you should wash your hands.','You should wash, your hands before you eat.','My work begins, after the shooting is over.','Max gets excited, when people are around.'],a:0}},
+
+{tab:'before·after 관계',title:'before와 after 시간 순서 변환 — 단골 시험 유형',body:`
+<p>before와 after는 <b>같은 사건을 반대 방향에서 표현</b>합니다. 시간 순서를 정확히!</p>
+<div class="ex">
+[사건 1: 숙제 완료] → [사건 2: TV 시청]<br><br>
+Amy did her homework <b class="hl">before</b> she watched TV.<br>
+(에이미는 TV를 보기 <b class="hl">전에</b> 숙제를 했다.)<br><br>
+= Amy watched TV <b class="hl">after</b> she did her homework.<br>
+(에이미는 숙제를 한 <b class="hl">후에</b> TV를 봤다.)
+</div>
+<div class="note">💡 두 문장의 의미가 정확히 같습니다!<br>before → after로 바꾸면 주절과 부사절의 순서도 바뀜!</div>`,
+check:{q:'"Amy did her homework before she watched TV."와 같은 의미는?',o:['Amy watched TV before she did her homework.','Amy watched TV after she did her homework.','After Amy watched TV, she did her homework.','Amy did her homework when she watched TV.'],a:1}},
+
+{tab:'킬러 1',title:'의문사 when vs 접속사 when — 가장 많이 틀리는 함정',body:`
+<div class="tw"><table class="t">
+<tr><th></th><th>의문사 when</th><th>접속사 when</th></tr>
+<tr><td>의미</td><td><b>"언제?"</b></td><td><b>"~할 때"</b></td></tr>
+<tr><td>역할</td><td>시간을 물어봄</td><td>두 절을 연결</td></tr>
+<tr><td>예문</td><td><b class="hl">When</b> is your birthday?</td><td>Call me <b class="hl">when</b> you arrive.</td></tr>
+</table></div>
+<div class="ex">
+<b class="ok-t">의문사:</b> <b class="hl">When</b> does the movie start? (언제 시작하니? / 문장 맨 앞, 의문문)<br>
+<b class="ok-t">접속사:</b> Minji drinks warm tea <b class="hl">when</b> she has a cold. (~할 때)
+</div>
+<div class="warn-box">시험 유형: "다음 중 when의 쓰임이 나머지 넷과 다른 하나는?"<br>→ 의문사 when이 들어간 문장 하나가 함정!</div>`,
+check:{q:'"When does the movie start?"에서 When의 쓰임은?',o:['접속사 (~할 때)','의문사 (언제?)','관계부사','지시사'],a:1}},
+
+{tab:'킬러 2',title:'시간 부사절의 시제 규칙 — 심화 함정',body:`
+<h4>함정: 시간 부사절에서 미래 시제 → 현재 시제로!</h4>
+<div class="warn-box">I will call you when I <b class="no-t">will arrive</b>. ✗<br>
+→ I will call you when I <b class="ok-t">arrive</b>. ✔<br><br>
+When it <b class="no-t">will rain</b> tomorrow, take an umbrella. ✗<br>
+→ When it <b class="ok-t">rains</b> tomorrow, take an umbrella. ✔
+</div>
+<h4>함정: 접속사 뒤에 완전한 절 (주어+동사)</h4>
+<div class="ex">
+before <b class="no-t">eat</b> (✗) → before <b class="ok-t">you eat</b> (✔)<br>
+before <b class="no-t">he cook</b> (✗) → before <b class="ok-t">he cooks</b> (✔) [3인칭 단수 주의!]
+</div>`,
+check:{q:'어법상 올바른 문장은?',o:['I will call you when I will arrive.','When it will rain, take an umbrella.','After he took a shower, Suho went to bed.','Before she cook dinner, she washes vegetables.'],a:2}},
+];
+
+/* ===== Stage 2: 역할/용법 분류 드릴 ===== */
+const ROLE_QS=[
+{s:'I went to the park <mark>to walk my dog</mark>.',a:0},
+{s:'She studies hard <mark>to pass the exam</mark>.',a:0},
+{s:'I want <mark>to learn</mark> how to shoot a movie.',a:1},
+{s:'Tom exercises every day <mark>to be healthy</mark>.',a:0},
+{s:'My hobby is <mark>to take pictures of nature</mark>.',a:2},
+{s:'He ran fast <mark>to catch the train</mark>.',a:0},
+{s:'I am so glad <mark>to meet</mark> you.',a:3},
+{s:'We got up early <mark>to see the sunrise</mark>.',a:0},
+{s:'She decided <mark>to fix</mark> the torn bag.',a:1},
+{s:'Her dream is <mark>to become a pilot</mark>.',a:2},
+{s:'A lot of people are working hard <mark>to create</mark> this movie.',a:0},
+{s:'I went to the library <mark>to borrow</mark> some science books.',a:0},
+{s:'I hope <mark>to see</mark> you soon.',a:1},
+{s:'This puzzle is easy <mark>to solve</mark>.',a:4},
+{s:'Anna travels around <mark>to find</mark> perfect places for shooting.',a:0},
+{s:'She was sad <mark>to hear</mark> the news.',a:3},
+{s:'I turned on the TV <mark>to watch</mark> the soccer game.',a:0},
+{s:'My goal is <mark>to improve</mark> my English.',a:2},
+{s:'He saved his pocket money <mark>to buy</mark> a gift.',a:0},
+{s:'I need <mark>to buy</mark> some reusable containers.',a:1},
+{s:'Emma changes scenes <mark>to create</mark> a better story.',a:0},
+{s:'He was surprised <mark>to see</mark> the huge dog.',a:3},
+{s:'Mike listened to music <mark>to calm</mark> himself.',a:0},
+{s:'To exercise regularly is good for your health.',a:5},
+{s:'They gathered in the room <mark>to discuss</mark> the project.',a:0},
+{s:'She came to Paris <mark>to learn</mark> art.',a:0},
+{s:'I bought a camera <mark>to capture birds</mark>.',a:0},
+{s:'He wants <mark>to be</mark> a world-famous chef.',a:1},
+{s:'We came home early <mark>to clean</mark> the room.',a:0},
+{s:'She is very happy <mark>to meet</mark> her favorite singer.',a:3},
+];
+const ROLE_LABELS=['부사적(목적)','명사적(목적어)','명사적(보어)','부사적(감정원인)','부사적(형용사수식)','명사적(주어)'];
+
+/* ===== Stage 3: 어순 배열 ===== */
+const ORDER_QS=[
+{q:'나는 내 강아지를 산책시키기 위해 공원에 갔다.',words:['I','went','to','the','park','to','walk','my','dog','.'],ans:'I went to the park to walk my dog .'},
+{q:'많은 사람들이 이 영화를 만들기 위해 열심히 일하고 있다.',words:['A','lot','of','people','are','working','hard','to','create','this','movie','.'],ans:'A lot of people are working hard to create this movie .'},
+{q:'그들의 행복한 순간들을 포착하기 위해, 나는 드론을 사용할 예정이다.',words:['To','capture','their','happy','moments',',','I','am','going','to','use','drones','.'],ans:'To capture their happy moments , I am going to use drones .'},
+{q:'비가 올 때, 우산을 잊지 마라.',words:['When','it','rains',',','don\'t','forget','your','umbrella','.'],ans:"When it rains , don't forget your umbrella ."},
+{q:'음식을 먹기 전에, 손을 씻어야 한다.',words:['Before','you','eat',',','you','should','wash','your','hands','.'],ans:'Before you eat , you should wash your hands .'},
+{q:'폭우가 그친 후에, 아이들은 밖으로 나갔다.',words:['After','the','heavy','rain','stopped',',','the','kids','went','outside','.'],ans:'After the heavy rain stopped , the kids went outside .'},
+{q:'에이미는 TV를 보기 전에 숙제를 했다.',words:['Amy','did','her','homework','before','she','watched','TV','.'],ans:'Amy did her homework before she watched TV .'},
+{q:'에이미는 숙제를 한 후에 TV를 보았다. (before 문장과 동일 의미)',words:['Amy','watched','TV','after','she','did','her','homework','.'],ans:'Amy watched TV after she did her homework .'},
+{q:'제니는 기차를 타기 위해 빨리 달렸다.',words:['Jenny','ran','fast','to','catch','the','train','.'],ans:'Jenny ran fast to catch the train .'},
+{q:'수호는 샤워를 한 후에 잠자리에 들었다.',words:['After','he','took','a','shower',',','Suho','went','to','bed','.'],ans:'After he took a shower , Suho went to bed .'},
+{q:'안나는 영화를 위한 좋은 장소를 찾기 위해 모로코를 방문했다.',words:['Anna','visited','Morocco','to','find','a','good','place','for','the','movie','.'],ans:'Anna visited Morocco to find a good place for the movie .'},
+{q:'주변에 사람이 많을 때 맥스는 너무 흥분한다.',words:['Max','gets','too','excited','when','a','lot','of','people','are','around','.'],ans:'Max gets too excited when a lot of people are around .'},
+{q:'건강하기 위해서는 신선한 채소를 먹어야 한다.',words:['In','order','to','stay','healthy',',','you','should','eat','fresh','vegetables','.'],ans:'In order to stay healthy , you should eat fresh vegetables .'},
+{q:'촬영이 끝난 후에 내 일이 시작된다.',words:['My','work','begins','after','the','shooting','is','over','.'],ans:'My work begins after the shooting is over .'},
+{q:'감기에 걸리지 않기 위해 코트를 입어라.',words:['Put','on','a','coat','not','to','catch','a','cold','.'],ans:'Put on a coat not to catch a cold .'},
+];
+
+/* ===== Stage 4: OX 스피드 ===== */
+const OX_QS=[
+{s:'She went to the shopping mall for buy a new coat.',a:'X',why:'목적 표현 → for buy ✗ → to buy ✔'},
+{s:'I went to the library to borrow some science books.',a:'O',why:'to borrow = 목적 부사적 용법 → 올바름'},
+{s:'Jenny ran fast to catching the morning train.',a:'X',why:'to + 동사원형 → to catching ✗ → to catch ✔'},
+{s:'To capture their happy moments, I am going to use drones.',a:'O',why:'문두 to부정사 + 콤마 → 올바름'},
+{s:'Before he will go to bed, Tim always drinks warm water.',a:'X',why:'시간 부사절에서 미래 → will go ✗ → goes ✔'},
+{s:'After he took a shower, Suho went to bed.',a:'O',why:'과거 시제 + 콤마 → 올바름'},
+{s:'When does the movie start? — When = 접속사',a:'X',why:'의문문의 When은 의문사, 접속사 아님'},
+{s:'Call me when you arrive.',a:'O',why:'접속사 when + 주어 + 동사 → 올바름'},
+{s:'Jake put on a warm scarf to not catch a cold.',a:'X',why:'to부정사 부정형 → to not ✗ → not to ✔'},
+{s:'Tom exercises every day to be healthy.',a:'O',why:'to be = 목적 부사적 용법 → 올바름'},
+{s:'Max gets too exciting when a lot of people are around.',a:'X',why:'감정을 느끼는 주어 → exciting ✗ → excited ✔'},
+{s:'Before you eat, you should wash your hands.',a:'O',why:'부사절 문두 + 콤마 → 올바름'},
+{s:'You should wash, your hands before you eat.',a:'X',why:'부사절이 뒤에 오면 콤마 없음'},
+{s:'In order not catch a cold, you should wear warm clothes.',a:'X',why:'not to catch → in order not to catch (to 누락)'},
+{s:'We went to the restaurant to have dinner.',a:'O',why:'to have = 목적 부사적 용법 → 올바름'},
+{s:'When it will rain tomorrow, take an umbrella.',a:'X',why:'시간 부사절 미래 불가 → will rain ✗ → rains ✔'},
+{s:'She studied hard to pass the math exam.',a:'O',why:'to pass = 목적 부사적 용법 → 올바름'},
+{s:'Before she cook dinner, she washes vegetables.',a:'X',why:'3인칭 단수 → cook ✗ → cooks ✔'},
+{s:'I am so glad to meet you.',a:'O',why:'to meet = 감정(glad)의 원인 → 올바름'},
+{s:'He worked hard to helping the movie team.',a:'X',why:'to + 동사원형 → to helping ✗ → to help ✔'},
+];
+
+/* ===== Stage 5: 빈칸 완성 ===== */
+const FILL_QS=[
+{q:'to부정사가 동사를 꾸며 "~하기 위하여"의 의미로 사용될 때 이를 to부정사의 _____적 용법이라고 한다.',a:['부사'],exp:'to부정사 부사적 용법 = 목적, 감정의 원인, 형용사 수식 등'},
+{q:'"She exercises every day to stay healthy."에서 to stay를 in으로 시작하는 세 단어로 바꾸면?',a:['in order to'],exp:'to + 동사원형 = in order to + 동사원형 = so as to + 동사원형'},
+{q:'"Jake put on a warm scarf ___ not to catch a cold." 빈칸에 올바른 부정형은?',a:['not to','not to catch'],exp:'to부정사 부정형: not to + 동사원형 (to not ✗ → not to ✔)'},
+{q:'"( ___ ) it rains, don\'t forget your umbrella." — 우리말 "~할 때"에 해당하는 접속사는?',a:['When','when'],exp:'시간 접속사 when = ~할 때. 문두이므로 대문자 When'},
+{q:'"Mina walked her dog before she had lunch." → "Mina had lunch ( ___ ) she walked her dog."',a:['after'],exp:'before ↔ after 시간 전후 관계: before A, B = B after A'},
+{q:'"When recording on location is not easy, I create sound effects in my studio." — 밑줄 친 when의 쓰임은?',a:['접속사','접속사 when'],exp:'~할 때(조건/시간) 두 절 연결 → 접속사. 의문사 아님'},
+{q:'"To capture their happy moments___ I am going to use drones." — 빈칸에 들어갈 문장 부호는?',a:[',','콤마','쉼표'],exp:'to부정사구가 문두에 오면 뒤에 콤마(,) 필수'},
+{q:'"Olivia came to Seoul to study Korean." — to study의 역할은?',a:['목적','부사적 목적','부사적 용법 목적'],exp:'서울에 왜 왔는가? 공부하기 위해 → 목적을 나타내는 부사적 용법'},
+{q:'"( eat, you, before )" → 올바른 어순으로 배열하면?',a:['Before you eat','before you eat'],exp:'접속사 + 주어 + 동사 어순: Before you eat'},
+{q:'"My work begins ( ___ ) the shooting is over." — "촬영이 끝난 후에"에 해당하는 접속사는?',a:['after'],exp:'after = ~한 후에 / 촬영 종료 → 편집 시작 → after'},
+{q:'"She went to the mall ___ buy a new coat." — 목적 표현으로 올바른 것은? (2단어)',a:['to buy'],exp:'목적 to부정사: to + 동사원형 → to buy (for buy ✗)'},
+{q:'"When it rains, don\'t forget your umbrella."에서 부사절을 뒤로 옮기면 콤마를 (넣는다 / 빼야 한다)?',a:['빼야 한다','빼야한다','없앤다','콤마 없음'],exp:'부사절이 주절 뒤에 오면 콤마 불필요'},
+{q:'"I will call you when I ___ ." — 시간 부사절의 올바른 시제는? (arrive 활용)',a:['arrive'],exp:'시간 부사절에서 미래 의미이더라도 현재 시제(arrive) 사용'},
+{q:'목적을 나타내는 to부정사의 부정형 형태는? ( ___ + ___ )',a:['not to','not to 동사원형'],exp:'not to + 동사원형: not to catch, not to miss, not to be late'},
+{q:'"Anna visited Morocco ___ ___ ___ ___ a good place for the movie." — to부정사 목적 표현으로 영작 (find 활용)',a:['to find a good place','to find'],exp:'목적 to부정사: to find a good place for the movie'},
+];
+
+/* ===== Stage 6: 실전 50제 ===== */
+const EXAM=[
+// Section 1: 01~10 단답형
+{n:1,type:'wr',tag:'개념',q:'[단답형] to부정사가 동사를 꾸며주며 "~하기 위하여(목적)"의 의미로 사용될 때, 이를 to부정사의 _____적 용법이라고 부른다.',
+a:['부사'],exp:'to부정사의 부사적 용법 — 목적, 감정의 원인, 형용사 수식'},
+
+{n:2,type:'wr',tag:'in order to',q:'[단답형] "She exercises every day to stay healthy."에서 밑줄 친 부분을 in으로 시작하는 세 단어로 바꾸시오.',
+a:['in order to'],exp:'to + 동사원형 = in order to + 동사원형 (= so as to + 동사원형)'},
+
+{n:3,type:'wr',tag:'부정형',q:'[단답형] "Jake put on a warm scarf ( to not / not to ) catch a cold." 괄호에서 알맞은 것을 고르시오.',
+a:['not to'],exp:'to부정사의 부정형: to 앞에 not → not to + 동사원형'},
+
+{n:4,type:'wr',tag:'시간 접속사',q:'[단답형] "( ________ ) it rains, don\'t forget your umbrella." — 우리말 "비가 올 때"에 해당하는 접속사를 쓰시오.',
+a:['When','when'],exp:'시간 접속사 when = ~할 때. 문두이므로 대문자'},
+
+{n:5,type:'wr',tag:'before/after',q:'[단답형] "Mina walked her dog before she had lunch." → "Mina had lunch ( ________ ) she walked her dog." 빈칸에 알맞은 접속사를 쓰시오.',
+a:['after'],exp:'before A, B = B after A — 시간 전후 관계 변환'},
+
+{n:6,type:'wr',tag:'의문사 vs 접속사',q:'[단답형] "When recording on location is not easy, I create sound effects in my studio." — 밑줄 친 When의 쓰임을 쓰시오.',
+a:['접속사'],exp:'~할 때의 의미로 두 절 연결 → 접속사 (의문사 아님)'},
+
+{n:7,type:'wr',tag:'콤마',q:'[단답형] "To capture their happy moments I am going to use drones." — 어법상 빠진 문장 부호를 넣어 다시 쓰시오.',
+a:['To capture their happy moments, I am going to use drones.','moments, I'],exp:'to부정사구가 문두에 올 때 → 뒤에 콤마(,) 필수'},
+
+{n:8,type:'wr',tag:'역할',q:'[단답형] "Olivia came to Seoul to study Korean." — to study의 역할을 우리말로 쓰시오.',
+a:['목적','부사적 용법 목적','~하기 위하여'],exp:'서울에 온 목적 → 부사적 용법 (목적: ~하기 위하여)'},
+
+{n:9,type:'wr',tag:'어순',q:'[단답형] ( eat, you, before ) — 올바른 어순으로 배열하여 "음식을 먹기 전에" 완성하시오.',
+a:['Before you eat','before you eat'],exp:'접속사 + 주어 + 동사 어순: Before you eat'},
+
+{n:10,type:'wr',tag:'시간 접속사',q:'[단답형] "My work begins ( ________ ) the shooting is over." — 문맥에 맞는 접속사를 쓰시오.',
+a:['after'],exp:'촬영 끝난 후 편집 시작 → after (~ 후에)'},
+
+// Section 2: 11~20 to부정사 부사적 용법
+{n:11,type:'mc',tag:'용법 구별',
+q:'다음 밑줄 친 to부정사의 쓰임이 "목적(~하기 위해)"으로 쓰이지 않은 것은?\n① I went to the store to buy some milk.\n② We got up early to see the sunrise.\n③ She is very happy to meet her favorite singer.\n④ He runs every morning to lose weight.\n⑤ Tom turned on the TV to watch the soccer game.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'③ happy to meet → "만나서 기쁘다" = 감정의 원인. 나머지는 모두 목적'},
+
+{n:12,type:'mc',tag:'빈칸 완성',
+q:'다음 빈칸에 들어갈 말로 가장 적절한 것은?\nA lot of people are working hard ________ this movie.\n① create\n② creates\n③ created\n④ to create\n⑤ creating',
+opts:['① create','② creates','③ created','④ to create','⑤ creating'],a:3,
+exp:'목적 to부정사: 이 영화를 만들기 위해 → to create'},
+
+{n:13,type:'mc',tag:'용법 같은 것',
+q:'다음 중 밑줄 친 부분의 용법이 [보기]와 같은 것은?\n[보기] He is saving money to buy a new skateboard.\n① My hobby is to take pictures of nature.\n② She decided to fix the torn bag.\n③ I went to the library to borrow some science books.\n④ To exercise regularly is good for your health.\n⑤ Ted hopes to become a film director.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'보기 to buy = 부사적(목적). ③ to borrow = 부사적(목적) ①보어 ②④⑤명사적'},
+
+{n:14,type:'mc',tag:'해석',
+q:'다음 문장에서 밑줄 친 부분의 의미로 가장 알맞은 것은?\nJenny ran fast to catch the bus.\n① 버스를 잡는 것은\n② 버스를 잡는 것을\n③ 버스를 잡기 위해서\n④ 버스를 잡아서 슬프다\n⑤ 버스를 잡는 것과 같다',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'to catch = 목적 부사적 용법 → 버스를 잡기 위해서'},
+
+{n:15,type:'mc',tag:'명사적 vs 부사적',
+q:'다음 중 밑줄 친 to부정사의 쓰임이 나머지 넷과 다른 하나는?\n① He went to the gym to work out.\n② She studied hard to pass the math exam.\n③ I want to learn how to shoot a movie.\n④ Minho went to the mall to watch a movie.\n⑤ Somin visited the bakery to buy a birthday cake.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'③ to learn = 명사적(목적어: ~하는 것을) / ①②④⑤ = 부사적(목적)'},
+
+{n:16,type:'mc',tag:'어법상 어색',
+q:'다음 대화의 빈칸에 들어갈 말로 알맞지 않은 것은?\nA: Why did you go to the park yesterday?\nB: I went there ________.\n① to walk my dog\n② to jog with my friend\n③ to play badminton\n④ to ride a bicycle\n⑤ to reading a book',
+opts:['①','②','③','④','⑤'],a:4,
+exp:'⑤ to reading → to read (to + 동사원형 필수)'},
+
+{n:17,type:'mc',tag:'in order to',
+q:'다음 문장의 빈칸에 들어갈 형태로 알맞은 것은?\n________ stay healthy, you should eat fresh vegetables and fruits.\n① In order to\n② Because of\n③ Instead of\n④ In return to\n⑤ As well to',
+opts:['① In order to','② Because of','③ Instead of','④ In return to','⑤ As well to'],a:0,
+exp:'목적 표현: In order to + 동사원형 = to + 동사원형'},
+
+{n:18,type:'mc',tag:'감정 원인 용법',
+q:'다음 문장의 밑줄 친 부분과 쓰임이 같은 것은?\nI am so glad to hear the good news.\n① She went to Paris to learn art.\n② He was surprised to see the huge dog.\n③ I bought a camera to capture birds.\n④ We came home early to clean the room.\n⑤ They ran to the station to meet Tom.',
+opts:['①','②','③','④','⑤'],a:1,
+exp:'glad to hear = 감정의 원인. ② surprised to see = 감정의 원인 / 나머지 = 목적'},
+
+{n:19,type:'mc',tag:'의미 일치',
+q:'다음 짝지어진 문장의 의미가 서로 다른 것은?\n① I practice hard to win the game. = I practice hard in order to win the game.\n② She went there to buy some bread. = She went there so as to buy some bread.\n③ He wore a heavy coat not to feel cold. = He wore a heavy coat in order not to feel cold.\n④ To become a pilot, you must study hard. = You must study hard in order to become a pilot.\n⑤ My dream is to make a movie. = I make a movie in order to dream.',
+opts:['①','②','③','④','⑤'],a:4,
+exp:'⑤ "나의 꿈은 영화 만들기"(명사적 보어) ≠ "꿈꾸기 위해 영화 만든다"(목적) → 의미 완전히 다름'},
+
+{n:20,type:'mc',tag:'어법 오류',
+q:'다음 중 어법상 틀린 문장은?\n① She called me to ask a question.\n② We went to the restaurant to having dinner.\n③ To stay awake, he drank a cup of coffee.\n④ Mike listened to music to calm himself.\n⑤ They gathered in the room to discuss the project.',
+opts:['①','②','③','④','⑤'],a:1,
+exp:'② to having → to have (to + 동사원형)'},
+
+// Section 3: 21~30 시간 접속사
+{n:21,type:'mc',tag:'공통 접속사',
+q:'다음 빈칸에 공통으로 들어갈 알맞은 접속사는?\n• ________ you go out, turn off the lights.\n• Always wash your hands ________ you eat food.\n① when ② before ③ after ④ because ⑤ that',
+opts:['① when','② before','③ after','④ because','⑤ that'],a:1,
+exp:'"외출하기 전 / 먹기 전" → before 공통'},
+
+{n:22,type:'mc',tag:'의문사 vs 접속사',
+q:'다음 중 밑줄 친 when의 쓰임이 나머지 넷과 다른 하나는?\n① When does the movie start?\n② Minji drinks warm tea when she has a cold.\n③ Max gets too excited when a lot of people are around.\n④ When I have free time, I enjoy playing the piano.\n⑤ Be quiet when you are in the library.',
+opts:['①','②','③','④','⑤'],a:0,
+exp:'① "영화 언제 시작해?" = 의문사 when / ②③④⑤ = 접속사 when (~할 때)'},
+
+{n:23,type:'mc',tag:'문장 연결',
+q:'다음 두 문장을 한 문장으로 바르게 연결한 것은?\n(A) I finished my homework. (먼저 일어난 일)\n(B) I went to bed. (나중에 일어난 일)\n① I went to bed after I finished my homework.\n② I went to bed before I finished my homework.\n③ After I went to bed, I finished my homework.\n④ Before I went to bed, I didn\'t do my homework.\n⑤ When I finished my homework, I went to school.',
+opts:['①','②','③','④','⑤'],a:0,
+exp:'"숙제 먼저 → 잠자리 나중" → I went to bed after I finished my homework.'},
+
+{n:24,type:'mc',tag:'시제 어울림',
+q:'다음 문장의 빈칸에 들어갈 말로 가장 어색한 것은?\nPeter usually eats fried chicken when ________.\n① he is happy\n② he watches a soccer game\n③ his friends visit his house\n④ he had a cold yesterday\n⑤ he feels hungry',
+opts:['①','②','③','④','⑤'],a:3,
+exp:'주절이 현재 시제(습관) → when절에 과거 시제(yesterday) 어색'},
+
+{n:25,type:'mc',tag:'콤마 위치',
+q:'다음 문장 중 콤마(,)의 쓰임이 어법상 올바른 것은?\n① Before you eat, you should wash your hands.\n② You should wash, your hands before you eat.\n③ My work begins, after the shooting is over.\n④ Max gets excited, when people are around.\n⑤ Peter drinks tea, when he has a cold.',
+opts:['①','②','③','④','⑤'],a:0,
+exp:'부사절이 앞 → 콤마 필수(①) / 부사절이 뒤 → 콤마 없음(②③④⑤ 모두 콤마 위치 오류)'},
+
+{n:26,type:'mc',tag:'before/after 선택',
+q:'다음 대화의 빈칸에 들어갈 접속사로 가장 알맞은 것은?\nA: Where did you live ________ you moved to Seoul?\nB: I lived in Busan.\n① before ② after ③ because ④ so ⑤ if',
+opts:['① before','② after','③ because','④ so','⑤ if'],a:0,
+exp:'"서울로 이사 오기 전에 어디 살았어?" → before'},
+
+{n:27,type:'mc',tag:'after 해석',
+q:'다음 문장의 밑줄 친 부분의 해석으로 알맞은 것은?\nAfter the heavy rain stopped, the children went outside to play.\n① 폭우가 멈추기 전에\n② 폭우가 멈췄을 때\n③ 폭우가 멈춘 후에\n④ 폭우가 멈추었기 때문에\n⑤ 폭우가 멈추지 않는다면',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'after = ~한 후에 → 폭우가 멈춘 후에'},
+
+{n:28,type:'mc',tag:'시제 오류',
+q:'다음 중 어법상 옳은 문장은?\n① When it will rain tomorrow, take an umbrella.\n② Before she cook dinner, she washes vegetables.\n③ After he took a shower, Suho went to bed.\n④ When the baby will sleep, please be quiet.\n⑤ She walked her dog after she will have lunch.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'③ 과거 시제 정확 / ①④⑤ 미래 불가(시간 부사절) / ② cook→cooks (3인칭 단수)'},
+
+{n:29,type:'mc',tag:'접속사 짝짓기',
+q:'다음 글의 내용과 일치하도록 빈칸 (A), (B)에 들어갈 접속사가 바르게 짝지어진 것은?\nMina had a busy morning. 8:00 개 산책 → 9:00 아침식사 → 10:00 숙제\n• Mina walked her dog ( A ) she had breakfast.\n• Mina did her homework ( B ) she had breakfast.\n① (A)before — (B)after\n② (A)after — (B)before\n③ (A)when — (B)when\n④ (A)before — (B)before\n⑤ (A)after — (B)after',
+opts:['① (A)before — (B)after','② (A)after — (B)before','③ (A)when — (B)when','④ (A)before — (B)before','⑤ (A)after — (B)after'],a:0,
+exp:'개 산책(8시)는 아침식사(9시) 전(before) / 숙제(10시)는 아침식사(9시) 후(after)'},
+
+{n:30,type:'mc',tag:'before/after 변환',
+q:'다음 두 문장의 의미가 다른 하나는?\n① After she finished the test, she smiled. = She smiled after she finished the test.\n② When I am tired, I listen to music. = I listen to music when I am tired.\n③ Before you cross the street, look both ways. = Look both ways before you cross the street.\n④ I brushed my teeth before I went to bed. = After I brushed my teeth, I went to bed.\n⑤ He called me before he arrived. = Before he called me, he arrived.',
+opts:['①','②','③','④','⑤'],a:4,
+exp:'⑤ "도착하기 전 전화(전화 먼저)" vs "전화하기 전 도착(도착 먼저)" → 시간 순서 반대'},
+
+// Section 4: 31~40 교과서 연계
+{n:31,type:'mc',tag:'교과서 연계',
+q:'7과 본문의 직업과 역할 설명 중 어법상 틀린 것은?\n① Anna travels around to find perfect places for shooting.\n② Peter uses drones to capture beautiful scenes from above.\n③ Jennifer uses hand signals calm Max down when he gets excited.\n④ Chris creates sound effects in his studio when recording is difficult.\n⑤ Emma changes the order of scenes to create a better story.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'③ hand signals calm → hand signals to calm (목적 to부정사 누락)'},
+
+{n:32,type:'mc',tag:'교과서 대화',
+q:'다음 대화의 ①~⑤ 중 어법상 어색한 것은?\nA: Why did you go to the studio, Chris?\nB: I went there ① to record some wave sounds.\n   I put some rice into a container ② to make the sound of waves.\nA: ③ When did you finish your work?\nB: I finished it ④ after the sun went down.\n   I worked hard ⑤ to helping the movie team!',
+opts:['①','②','③','④','⑤'],a:4,
+exp:'⑤ to helping → to help (to + 동사원형)'},
+
+{n:33,type:'mc',tag:'교과서 빈칸',
+q:'다음 문장의 빈칸 (A)와 (B)에 들어갈 말이 바르게 짝지어진 것은?\nChris creates sound effects in his studio ( A ) recording on location is not easy.\nHis work begins ( B ) the shooting is over.\n① (A)when — (B)after\n② (A)before — (B)when\n③ (A)after — (B)before\n④ (A)that — (B)after\n⑤ (A)when — (B)before',
+opts:['① (A)when — (B)after','② (A)before — (B)when','③ (A)after — (B)before','④ (A)that — (B)after','⑤ (A)when — (B)before'],a:0,
+exp:'현장 녹음이 어려울 때(when) / 촬영 끝난 후(after) → (A)when (B)after'},
+
+{n:34,type:'mc',tag:'문맥 빈칸',
+q:'다음 문맥상 빈칸에 알맞은 것은?\nYesterday, Mina was very hungry. She stopped by the bakery ________ some fresh bread.\n① buy ② bought ③ to buy ④ buying ⑤ to buying',
+opts:['① buy','② bought','③ to buy','④ buying','⑤ to buying'],a:2,
+exp:'빵집에 들른 목적 → to buy (to + 동사원형)'},
+
+{n:35,type:'mc',tag:'본문 어법',
+q:'다음 7과 본문 내용 기반 문장 중 어법상 틀린 것은?\n① Jennifer trains and takes care of animals for the movie.\n② Max gets too excited when many people are around him.\n③ Peter presses the camera button to capturing the beautiful sunset.\n④ Emma needs storytelling skills to create a great movie.\n⑤ Anna likes to travel and enjoys challenges.',
+opts:['①','②','③','④','⑤'],a:2,
+exp:'③ to capturing → to capture (to + 동사원형)'},
+
+{n:36,type:'mc',tag:'why 질문',
+q:'다음 대화의 빈칸에 가장 알맞은 질문은?\nA: __________________________________________________\nB: She went there to borrow some books.\n① When did Jisu go to the library?\n② Why did Jisu go to the library?\n③ How did Jisu go to the library?\n④ Who went to the library with Jisu?\n⑤ What did Jisu read in the library?',
+opts:['①','②','③','④','⑤'],a:1,
+exp:'대답이 목적(to borrow) → "왜 갔어?" → Why did Jisu go?'},
+
+{n:37,type:'mc',tag:'용법 구별',
+q:'다음 문장의 밑줄 친 부분과 용법이 다른 것은?\nThe film editor deleted the boring scenes to make the movie exciting.\n① He saved his pocket money to buy a gift for his mom.\n② She went to the kitchen to drink a glass of water.\n③ I turned on the computer to do my English homework.\n④ It is very important to be honest with your friends.\n⑤ They ran to the park to see the fireworks.',
+opts:['①','②','③','④','⑤'],a:3,
+exp:'④ to be = 가주어 It의 진주어 (명사적) / 나머지는 부사적(목적)'},
+
+{n:38,type:'mc',tag:'시간 접속사 어색',
+q:'다음 중 시간 접속사의 의미가 자연스럽지 않은 문장은?\n① Before you go to sleep, brush your teeth.\n② When I feel sad, I talk to my best friend.\n③ After the movie ended, we went to a restaurant for dinner.\n④ Think twice after you press the POST button on social media.\n⑤ When it is hot outside, I eat ice cream.',
+opts:['①','②','③','④','⑤'],a:3,
+exp:'④ 눌러보내기 전에 생각해야 → after(후에) → before(전에)로 고쳐야 자연스러움'},
+
+{n:39,type:'mc',tag:'대화 오류',
+q:'다음 대화의 흐름으로 보아 밑줄 친 부분 중 어법상 어색한 것은?\nG: What do you want to be in the future, David?\nB: I want to be a world-famous chef!\nG: Are you doing anything ① to reach your goal?\nB: Yes! I practice cooking ② after I finish my school classes.\nG: What do you usually make?\nB: I usually make pasta ③ when my family is at home.\nG: Why do you cook for them?\nB: ④ To making them happy, of course!\nG: I hope ⑤ to taste your food someday!',
+opts:['①','②','③','④','⑤'],a:3,
+exp:'④ To making → To make (to + 동사원형 필수)'},
+
+{n:40,type:'mc',tag:'두 문장 합치기',
+q:'다음 문장들을 한 문장으로 바르게 합친 것은?\n• Anna visited Morocco.\n• She wanted to find a good place for the movie.\n① Anna visited Morocco to finding a good place for the movie.\n② Anna visited Morocco to find a good place for the movie.\n③ To find a good place for the movie Anna visited Morocco. (구두점 주의)\n④ Anna visited Morocco when she finds a good place for the movie.\n⑤ Anna visited Morocco before she wants to find a good place.',
+opts:['①','②','③','④','⑤'],a:1,
+exp:'② to find = 목적 to부정사 (③은 문두 부사구 뒤 콤마 누락)'},
+
+// Section 5: 41~50 서술형
+{n:41,type:'wr',tag:'오류 수정',q:'[서술형] 다음 문장에서 어법상 틀린 한 단어를 찾아 바르게 고쳐 쓰시오.\nShe went to the shopping mall for buy a new coat.',
+a:['to buy','for→to buy','for buy→to buy'],exp:'목적 표현 → for buy ✗ → to buy ✔'},
+
+{n:42,type:'wr',tag:'오류 수정',q:'[서술형] 다음 문장에서 어법상 틀린 부분을 찾아 바르게 고쳐 문장 전체를 다시 쓰시오.\nJenny ran fast to catching the morning train.',
+a:['Jenny ran fast to catch the morning train.','to catch'],exp:'to + 동사원형 → to catching ✗ → to catch ✔'},
+
+{n:43,type:'wr',tag:'시제 오류',q:'[서술형] 다음 문장에서 어법상 틀린 부분을 찾아 바르게 고쳐 문장 전체를 다시 쓰시오.\nBefore he will go to bed, Tim always drinks a glass of warm water.',
+a:['Before he goes to bed, Tim always drinks a glass of warm water.','he goes','goes'],exp:'시간 부사절 미래 불가 + 3인칭 단수 → will go ✗ → goes ✔'},
+
+{n:44,type:'wr',tag:'분사 오류',q:'[서술형] 다음 문장에서 어법상 틀린 한 단어를 찾아 바르게 고쳐 쓰시오.\nMax gets too exciting when a lot of people are around.',
+a:['excited','exciting→excited'],exp:'감정을 느끼는 주어(Max) → 과거분사 excited (교과서 본문: gets too excited)'},
+
+{n:45,type:'wr',tag:'부정형 오류',q:'[서술형] 다음 문장에서 어법상 어색한 부분을 찾아 바르게 고쳐 쓰시오.\nIn order not catch a cold, you should wear warm clothes in winter.',
+a:['not to catch','in order not to catch','not catch→not to catch'],exp:'in order not to + 동사원형 → not 뒤에 to 필요'},
+
+{n:46,type:'wr',tag:'영작',q:'[서술형] 다음 우리말과 일치하도록 주어진 단어를 활용하여 영작하시오.\n"수호는 샤워를 한 후에 잠자리에 들었다."\n[ after, a shower, went, take ]',
+a:['Suho went to bed after he took a shower.','After he took a shower, Suho went to bed.'],
+exp:'after he took a shower, Suho went to bed. (또는 Suho went to bed after he took a shower.)'},
+
+{n:47,type:'wr',tag:'어순 배열',q:'[서술형] 다음 우리말과 일치하도록 주어진 단어들을 올바른 순서로 배열하시오.\n"그들의 행복한 순간들을 포착하기 위해, 나는 드론을 사용할 예정이다."\n( the happy moments, drones, to capture, I am going to use )',
+a:['To capture the happy moments, I am going to use drones.'],
+exp:'문두 to부정사구 + 콤마 + 주절: To capture the happy moments, I am going to use drones.'},
+
+{n:48,type:'wr',tag:'조건 영작',q:'[서술형] 다음 대화의 질문에 대한 알맞은 대답을 [조건]에 맞추어 완전한 영어 문장으로 완성하시오.\nA: Why did Minho go to the mall yesterday?\nB: He went there ________________________________.\n[조건] 1. "영화를 보기 위해"라는 의미가 되도록 쓸 것\n2. to부정사를 포함하여 4단어로 쓸 것 (watch, a movie 활용)',
+a:['to watch a movie'],exp:'to watch a movie = 영화를 보기 위해 (to + 동사원형)'},
+
+{n:49,type:'wr',tag:'before 활용',q:'[서술형] 다음 두 문장을 시간 접속사 before를 사용하여 한 문장으로 연결하시오.\n• Amy did her homework. (오후 6시)\n• Amy watched TV. (오후 8시)',
+a:['Amy did her homework before she watched TV.','Amy did her homework before she watched TV'],
+exp:'숙제(6시) 먼저 → TV 시청(8시) 나중 → Amy did her homework before she watched TV.'},
+
+{n:50,type:'wr',tag:'어순 배열',q:'[서술형] 다음 우리말과 일치하도록 주어진 단어들을 올바른 순서로 배열하여 문장을 완성하시오.\n( home, when, rains, don\'t, it, leave )\n"비가 올 때 집을 떠나지 마라."',
+a:["When it rains, don't leave home.","Don't leave home when it rains."],
+exp:"When it rains, don't leave home. 또는 Don't leave home when it rains."},
+];
+
+/* ===== 유틸 ===== */
+const app=document.getElementById('app');
+function norm(s){return s.toLowerCase().replace(/[^a-z0-9가-힣\s\/→,.']/g,' ').replace(/\s+/g,' ').trim();}
+function ansMatch(user,ans){
+  const u=norm(user);
+  const list=Array.isArray(ans)?ans:[ans];
+  for(const a of list){
+    const parts=a.split('|').map(p=>norm(p.trim()));
+    if(parts.some(p=>p&&(u===p||u.includes(p)||p.includes(u))))return true;
+  }
+  return false;
+}
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2000);
+}
+
+/* ===== 홈 ===== */
+function home(){
+  const total=EXAM.length;
+  const examDone=Object.keys(prog.exam).length;
+  const examScore=Object.values(prog.exam).filter(v=>v).length;
+  const wrongN=prog.wrong.length;
+  app.innerHTML=`
+<div class="hero">
+  <div class="eyebrow">EDEN Grammar Lab · 중1 · Lesson 7</div>
+  <h1>Find Your Dream — Let's Make a Movie!</h1>
+  <div class="chips">
+    <span class="chip${prog.best[1]?' on':''}">to부정사 부사적 용법</span>
+    <span class="chip${prog.best[2]?' on':''}">용법 분류</span>
+    <span class="chip${prog.best[4]?' on':''}">OX 스피드</span>
+    <span class="chip${prog.best[6]?' on':''}">실전 50제</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="k">실전 50제 진행</div><div class="v">${examDone}<small>/${total}</small></div></div>
+    <div class="kpi"><div class="k">정답률</div><div class="v">${examDone?Math.round(examScore/examDone*100):0}<small>%</small></div></div>
+    <div class="kpi"><div class="k">오답 문항</div><div class="v">${wrongN}<small>개</small></div></div>
+  </div>
+</div>
+<div class="sec-title">STUDY STAGES</div>
+<div class="stages">
+  ${stRow(1,'개념 노트','to부정사 부사적 용법 + 시간 접속사 핵심 정리','')}
+  ${stRow(2,'용법 분류 드릴','to부정사 목적·명사적·감정원인 역할 분류 30문항',prog.best[2])}
+  ${stRow(3,'어순 배열 챌린지','to부정사·시간 접속사 어순 배열 15문항',prog.best[3])}
+  ${stRow(4,'함정 OX 스피드','어법 맞으면 O, 틀리면 X — 60초 타이머',prog.best[4])}
+  ${stRow(5,'빈칸 완성 트레이닝','개념 빈칸 15문항 직접 입력',prog.best[5])}
+  ${stRow(6,'실전 50제','객관식 Q01~40 + 서술형 Q41~50 전 문항',examDone?Math.round(examScore/total*100):null)}
+</div>
+${wrongN?`<div class="wrong-row"><div><b>오답 복습</b><span>${wrongN}개 문항이 오답 노트에 있어요</span></div><button class="btn btn-sec" onclick="startWrong()">복습하기 →</button></div>`:''}`;
+}
+function stRow(n,title,desc,score){
+  const done=score!==null&&score!==''&&score!==undefined;
+  return `<button class="st${done?' done':''}" onclick="stage${n}()">
+    <div class="no">${String(n).padStart(2,'0')}</div>
+    <div><h3>${title}</h3><p>${desc}</p></div>
+    <div class="rt"><div class="pct${done?'':' none'}">${done?score+'%':'미완료'}</div>
+    <div class="mbar"><div style="width:${done?score:0}%"></div></div></div>
+  </button>`;
+}
+
+/* ===== Stage 1: 개념 노트 ===== */
+function stage1(){
+  let p1=0,p2=0;
+  const panels=[
+    {label:'Pattern 1',sub:'to부정사 부사적 용법',data:CPT_P1},
+    {label:'Pattern 2',sub:'시간 접속사',data:CPT_P2}
+  ];
+  function render(){
+    const cur=panels[p2].data[p1];
+    const total=panels[p2].data.length;
+    app.innerHTML=`
+<div class="phead">
+  <div><div class="eyebrow">STAGE 01</div><h2>개념 노트</h2></div>
+  <div class="stats"><span class="stat"><b>${p1+1}</b>/${total}</span></div>
+</div>
+<div class="sec-tabs">
+  ${panels.map((p,i)=>`<div class="sec-tab${p2===i?' on':''}" onclick="__p2(${i})">${p.label}<br><small style="font-size:11px;font-weight:600">${p.sub}</small></div>`).join('')}
+</div>
+<div class="cpt-box">
+  <div class="ctabs">
+    ${panels[p2].data.map((c,i)=>`<button class="ctab${p1===i?' on':''}" onclick="__p1(${i})">${c.tab}</button>`).join('')}
+  </div>
+  <div class="cpt" style="margin-top:4px">${cur.body}</div>
+  ${cur.check?`<div class="chk">
+    <div class="q">${cur.check.q}</div>
+    <div class="row" id="cr">${cur.check.o.map((o,i)=>`<button onclick="__chk(${i},${cur.check.a})">${o}</button>`).join('')}</div>
+    <div class="msg" id="cm"></div>
+  </div>`:''}
+</div>
+<div class="dots">${panels[p2].data.map((_,i)=>`<span class="${p1===i?'on':''}"></span>`).join('')}</div>
+<div class="acts">
+  <button class="btn btn-sec" onclick="home()">← 홈</button>
+  <div class="r">
+    ${p1>0?`<button class="btn btn-sec" onclick="__p1(${p1-1})">이전</button>`:''}
+    ${p1<total-1?`<button class="btn btn-pri" onclick="__p1(${p1+1})">다음 →</button>`:
+      p2<panels.length-1?`<button class="btn btn-pri" onclick="__p2(${p2+1})">다음 패턴 →</button>`:
+      `<button class="btn btn-pri" onclick="stage2()">드릴 시작 →</button>`}
+  </div>
+</div>`;
+    window.__p1=i=>{p1=i;render();};
+    window.__p2=i=>{p2=i;p1=0;render();};
+    window.__chk=(i,correct)=>{
+      document.querySelectorAll('#cr button').forEach((b,j)=>{
+        b.className=j===correct?'ok':j===i?'no':'';b.disabled=true;
+      });
+      document.getElementById('cm').textContent=i===correct?'✔ 맞아요!':'✗ 틀렸어요. 정답: '+panels[p2].data[p1].check.o[correct];
+    };
+  }
+  render();
+}
+
+/* ===== Stage 2: 용법 분류 드릴 ===== */
+function stage2(){
+  const qs=[...ROLE_QS].sort(()=>Math.random()-.5);
+  let idx=0,correct=0;
+  function render(){
+    if(idx>=qs.length){showRes2();return;}
+    const q=qs[idx];
+    app.innerHTML=`
+<div class="phead">
+  <div><div class="eyebrow">STAGE 02</div><h2>용법 분류 드릴</h2></div>
+  <div class="stats"><span class="stat"><b>${idx+1}</b>/${qs.length}</span><span class="stat">정답 <b>${correct}</b></span></div>
+</div>
+<div class="track"><div style="width:${idx/qs.length*100}%"></div></div>
+<div class="card">
+  <div class="tag">to부정사 용법</div>
+  <div class="sent" style="margin-top:12px">${q.s}</div>
+  <p style="text-align:center;font-size:13px;color:var(--mute);margin-bottom:12px">밑줄 친 to부정사의 역할은?</p>
+  <div class="choices" style="grid-template-columns:repeat(2,1fr)" id="ch">
+    ${ROLE_LABELS.map((l,i)=>`<button class="ch" onclick="__ans(${i})">${l}</button>`).join('')}
+  </div>
+  <div id="fb"></div>
+</div>
+<div class="acts"><button class="btn btn-sec" onclick="home()">← 홈</button></div>`;
+    window.__ans=i=>{
+      const btns=document.querySelectorAll('#ch .ch');
+      btns.forEach(b=>b.disabled=true);
+      btns[q.a].classList.add('correct');
+      if(i===q.a){correct++;btns[i].classList.add('correct');}
+      else btns[i].classList.add('wrong');
+      document.getElementById('fb').innerHTML=`<div class="fb ${i===q.a?'good':'bad'}"><div class="h">${i===q.a?'✔ 정답!':'✗ 오답'}</div><div class="a">정답: ${ROLE_LABELS[q.a]}</div></div>`;
+      setTimeout(()=>{idx++;render();},900);
+    };
+  }
+  function showRes2(){
+    const pct=Math.round(correct/qs.length*100);
+    if(!prog.best[2]||pct>prog.best[2]){prog.best[2]=pct;save();}
+    app.innerHTML=`<div class="res"><div class="big">${pct}<small>%</small></div><div class="pill">${correct}/${qs.length} 정답</div>
+    <h3>${pct>=80?'훌륭해요!':pct>=60?'잘했어요!':'다시 도전!'}</h3>
+    <div class="acts"><button class="btn btn-sec" onclick="home()">홈으로</button><button class="btn btn-pri" onclick="stage2()">다시 풀기</button></div></div>`;
+  }
+  render();
+}
+
+/* ===== Stage 3: 어순 배열 ===== */
+function stage3(){
+  const qs=[...ORDER_QS].sort(()=>Math.random()-.5);
+  let idx=0,correct=0;
+  function render(){
+    if(idx>=qs.length){showRes3();return;}
+    const q=qs[idx];
+    const shuffled=[...q.words].sort(()=>Math.random()-.5);
+    let placed=[];
+    const usedMap={};
+    function draw(){
+      const zH=placed.length?placed.map((w,i)=>`<button class="blk" onclick="__rm(${i})">${w}</button>`).join(''):`<span class="ph">단어를 클릭하여 배치하세요</span>`;
+      const pHtml=shuffled.map((w,i)=>{
+        const placedCnt=placed.filter(x=>x===w).length;
+        const totalCnt=shuffled.filter(x=>x===w).length;
+        const hide=usedMap[i];
+        return `<button class="blk${hide?' used':''}" onclick="__add('${w}',${i})">${w}</button>`;
+      }).join('');
+      app.innerHTML=`
+<div class="phead">
+  <div><div class="eyebrow">STAGE 03</div><h2>어순 배열 챌린지</h2></div>
+  <div class="stats"><span class="stat"><b>${idx+1}</b>/${qs.length}</span><span class="stat">정답 <b>${correct}</b></span></div>
+</div>
+<div class="track"><div style="width:${idx/qs.length*100}%"></div></div>
+<div class="card">
+  <div class="tag">어순 배열</div>
+  <div class="qtext" style="margin-top:10px">${q.q}</div>
+  <p style="font-size:13px;color:var(--mute);margin-bottom:8px">배치한 순서:</p>
+  <div class="zone">${zH}</div>
+  <p style="font-size:13px;color:var(--mute);margin-bottom:8px">단어 카드:</p>
+  <div class="pool">${pHtml}</div>
+  <div id="fb"></div>
+</div>
+<div class="acts">
+  <button class="btn btn-sec" onclick="home()">← 홈</button>
+  <div class="r"><button class="btn btn-sec" onclick="__cl()">지우기</button><button class="btn btn-pri" onclick="__ck()">확인</button></div>
+</div>`;
+      window.__add=(w,i)=>{if(!usedMap[i]){usedMap[i]=true;placed.push(w);draw();}};
+      window.__rm=i=>{
+        const w=placed[i];
+        const idx2=shuffled.findIndex((x,si)=>x===w&&usedMap[si]);
+        if(idx2>=0)delete usedMap[idx2];
+        placed.splice(i,1);draw();
+      };
+      window.__cl=()=>{placed=[];Object.keys(usedMap).forEach(k=>delete usedMap[k]);draw();};
+      window.__ck=()=>{
+        if(!placed.length){toast('단어를 배치해 주세요');return;}
+        const user=placed.join(' ');
+        const ok=norm(user)===norm(q.ans);
+        if(ok)correct++;
+        document.getElementById('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><div class="h">${ok?'✔ 정답!':'✗ 오답'}</div><div class="a">정답: ${q.ans}</div></div>`;
+        setTimeout(()=>{idx++;render();},1200);
+      };
+    }
+    draw();
+  }
+  function showRes3(){
+    const pct=Math.round(correct/qs.length*100);
+    if(!prog.best[3]||pct>prog.best[3]){prog.best[3]=pct;save();}
+    app.innerHTML=`<div class="res"><div class="big">${pct}<small>%</small></div><div class="pill">${correct}/${qs.length} 정답</div>
+    <h3>${pct>=80?'훌륭해요!':pct>=60?'잘했어요!':'다시 도전!'}</h3>
+    <div class="acts"><button class="btn btn-sec" onclick="home()">홈으로</button><button class="btn btn-pri" onclick="stage3()">다시 풀기</button></div></div>`;
+  }
+  render();
+}
+
+/* ===== Stage 4: OX 스피드 ===== */
+function stage4(){
+  const qs=[...OX_QS].sort(()=>Math.random()-.5);
+  let idx=0,correct=0,timer=60,iv=null;
+  function tick(){
+    timer--;
+    const tb=document.querySelector('.timebar div');
+    const tn=document.querySelector('.tnum');
+    if(tb)tb.style.width=(timer/60*100)+'%';
+    if(tn)tn.textContent=timer+'s';
+    if(document.querySelector('.timebar'))document.querySelector('.timebar').classList.toggle('warn',timer<=15);
+    if(timer<=0){clearInterval(iv);showRes4();}
+  }
+  function render(){
+    if(idx>=qs.length){clearInterval(iv);showRes4();return;}
+    const q=qs[idx];
+    app.innerHTML=`
+<div class="phead"><div><div class="eyebrow">STAGE 04</div><h2>함정 OX 스피드</h2></div>
+<div class="stats"><span class="stat"><b>${idx+1}</b>/${qs.length}</span><span class="stat">정답 <b>${correct}</b></span></div></div>
+<div class="speed-top">
+  <div class="timebar${timer<=15?' warn':''}"><div style="width:${timer/60*100}%"></div></div>
+  <div class="tnum">${timer}s</div>
+</div>
+<div class="card speed-card" id="sc">
+  <div class="tag">어법 판단</div>
+  <div class="sent" style="font-size:16px;padding:24px 4px">${q.s}</div>
+  <div class="choices c2" style="margin-top:8px">
+    <button class="ch" style="font-size:22px;padding:20px" onclick="__ox('O')">O</button>
+    <button class="ch" style="font-size:22px;padding:20px" onclick="__ox('X')">X</button>
+  </div>
+</div>
+<div class="last" id="last"></div>
+<div class="acts"><button class="btn btn-sec" onclick="clearInterval(iv);home()">← 홈</button></div>`;
+    window.__ox=v=>{
+      const sc=document.getElementById('sc');
+      const ok=v===q.a;
+      if(ok){correct++;sc.classList.add('flash-ok');}else sc.classList.add('flash-no');
+      document.getElementById('last').innerHTML=`${ok?'✔':'✗'} ${q.a==='O'?'O (올바름)':'X (틀림)'} — ${q.why}`;
+      setTimeout(()=>{idx++;render();},700);
+    };
+  }
+  render();iv=setInterval(tick,1000);
+  function showRes4(){
+    const pct=Math.round(correct/Math.max(idx,1)*100);
+    if(!prog.best[4]||pct>prog.best[4]){prog.best[4]=pct;save();}
+    app.innerHTML=`<div class="res"><div class="big">${correct}<small>문항</small></div><div class="pill">${idx}문항 중 ${correct}개 정답</div>
+    <h3>${pct>=80?'함정 완벽 차단!':pct>=60?'잘했어요!':'개념을 다시 확인해요!'}</h3>
+    <div class="acts"><button class="btn btn-sec" onclick="home()">홈으로</button><button class="btn btn-pri" onclick="stage4()">다시 풀기</button></div></div>`;
+  }
+}
+
+/* ===== Stage 5: 빈칸 완성 ===== */
+function stage5(){
+  let idx=0,correct=0,answered=false;
+  function render(){
+    if(idx>=FILL_QS.length){showRes5();return;}
+    const q=FILL_QS[idx];answered=false;
+    app.innerHTML=`
+<div class="phead"><div><div class="eyebrow">STAGE 05</div><h2>빈칸 완성 트레이닝</h2></div>
+<div class="stats"><span class="stat"><b>${idx+1}</b>/${FILL_QS.length}</span><span class="stat">정답 <b>${correct}</b></span></div></div>
+<div class="track"><div style="width:${idx/FILL_QS.length*100}%"></div></div>
+<div class="card">
+  <div class="tag">개념 빈칸</div>
+  <div class="qtext">${q.q}</div>
+  <div class="fld"><input id="ans" placeholder="정답을 입력하세요" autocomplete="off" autocorrect="off"></div>
+  <div id="fb"></div>
+</div>
+<div class="acts">
+  <button class="btn btn-sec" onclick="home()">← 홈</button>
+  <button class="btn btn-pri" id="cb" onclick="__c5()">확인</button>
+</div>`;
+    const inp=document.getElementById('ans');inp.focus();
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter')window.__c5();});
+    window.__c5=()=>{
+      if(answered)return;answered=true;
+      const user=inp.value.trim();
+      const ok=ansMatch(user,q.a);
+      if(ok){correct++;inp.classList.add('ok');}else inp.classList.add('no');
+      document.getElementById('fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><div class="h">${ok?'✔ 정답!':'✗ 오답'}</div><div class="a">정답: ${Array.isArray(q.a)?q.a[0]:q.a}</div><div class="exp">${q.exp}</div></div>`;
+      const cb=document.getElementById('cb');cb.textContent='다음 →';cb.onclick=()=>{idx++;render();};
+    };
+  }
+  function showRes5(){
+    const pct=Math.round(correct/FILL_QS.length*100);
+    if(!prog.best[5]||pct>prog.best[5]){prog.best[5]=pct;save();}
+    app.innerHTML=`<div class="res"><div class="big">${pct}<small>%</small></div><div class="pill">${correct}/${FILL_QS.length} 정답</div>
+    <h3>${pct>=80?'개념 완벽!':pct>=60?'잘했어요!':'개념 노트를 다시 봐요!'}</h3>
+    <div class="acts"><button class="btn btn-sec" onclick="home()">홈으로</button><button class="btn btn-pri" onclick="stage5()">다시 풀기</button></div></div>`;
+  }
+  render();
+}
+
+/* ===== Stage 6: 실전 50제 ===== */
+function stage6(startIdx=0,filterWrong=false){
+  let qs=filterWrong?EXAM.filter(q=>prog.wrong.includes(q.n)):EXAM;
+  if(!qs.length){toast('오답 문항이 없어요!');home();return;}
+  let cur=startIdx;
+  function renderGrid(){
+    return qs.map(q=>`<button onclick="__jmp(${qs.indexOf(q)})" class="${prog.exam[q.n]===true?'ok':prog.exam[q.n]===false?'no':''} ${qs.indexOf(q)===cur?'cur':''}">${q.n}</button>`).join('');
+  }
+  function render(){
+    const q=qs[cur];if(!q){showRes6();return;}
+    const answered=prog.exam[q.n]!==undefined;
+    const isWr=q.type==='wr';
+    const NUMS=['①','②','③','④','⑤'];
+    let optsHtml='';
+    if(!isWr){
+      optsHtml=`<div class="opts">${q.opts.map((o,i)=>{
+        let cls='opt';
+        if(answered){
+          if(i===q.a)cls+=' correct';
+          else if(prog.exam[q.n]===false&&(prog.ua||{})[q.n]===i)cls+=' wrong';
+        }
+        const num=NUMS[i]||'';
+        return `<button class="${cls}" onclick="__mc(${i})" ${answered?'disabled':''}><span class="m">${num}</span><span>${o}</span></button>`;
+      }).join('')}</div>`;
+    }else{
+      optsHtml=`<div class="fld"><label>정답 입력</label><input id="wAns" placeholder="${q.hint||'정답을 입력하세요'}" ${answered?'disabled':''} autocomplete="off" autocorrect="off"></div>`;
+    }
+    let fbHtml='';
+    if(answered){
+      const ok=prog.exam[q.n];
+      fbHtml=`<div class="fb ${ok?'good':'bad'}"><div class="h">${ok?'✔ 정답!':'✗ 오답'}</div><div class="a">정답: ${Array.isArray(q.a)?q.a[0]:q.a}</div><div class="exp">${q.exp}</div></div>`;
+    }
+    app.innerHTML=`
+<div class="phead"><div><div class="eyebrow">STAGE 06</div><h2>실전 50제</h2></div>
+<div class="stats"><span class="stat"><b>${cur+1}</b>/${qs.length}</span><span class="stat">정답 <b>${Object.values(prog.exam).filter(v=>v).length}</b></span></div></div>
+<div class="filters">
+  <button class="on">전체</button>
+  <button onclick="stage6(0,false)">처음부터</button>
+  ${prog.wrong.length?`<button onclick="stage6(0,true)">오답만</button>`:''}
+</div>
+<div class="grid">${renderGrid()}</div>
+<div class="card">
+  <div class="qno"><span>Q${q.n}</span><span class="tag">${q.tag}</span>${isWr?'<span class="tag red">서술형</span>':''}</div>
+  <div class="qtext">${q.q.replace(/\n/g,'<br>')}</div>
+  ${optsHtml}${fbHtml}
+</div>
+<div class="acts">
+  <button class="btn btn-sec" onclick="home()">← 홈</button>
+  <div class="r">
+    ${cur>0?`<button class="btn btn-sec" onclick="__jmp(${cur-1})">이전</button>`:''}
+    ${answered?`<button class="btn btn-pri" onclick="__jmp(${cur+1<qs.length?cur+1:cur})">${cur+1<qs.length?'다음 →':'결과 보기'}</button>`:
+      isWr?`<button class="btn btn-pri" onclick="__wr()">확인</button>`:''}
+  </div>
+</div>`;
+    window.__jmp=i=>{if(i>=0&&i<qs.length){cur=i;render();}else showRes6();};
+    if(isWr&&!answered){
+      const inp=document.getElementById('wAns');
+      if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')window.__wr();});}
+    }
+    window.__mc=i=>{
+      if(answered)return;
+      const ok=i===q.a;
+      prog.exam[q.n]=ok;
+      if(!prog.ua)prog.ua={};prog.ua[q.n]=i;
+      if(!ok&&!prog.wrong.includes(q.n))prog.wrong.push(q.n);
+      if(ok)prog.wrong=prog.wrong.filter(n=>n!==q.n);
+      save();render();
+    };
+    window.__wr=()=>{
+      const inp=document.getElementById('wAns');if(!inp)return;
+      const user=inp.value.trim();
+      if(!user){toast('정답을 입력해 주세요');return;}
+      const ok=ansMatch(user,q.a);
+      prog.exam[q.n]=ok;
+      if(!ok&&!prog.wrong.includes(q.n))prog.wrong.push(q.n);
+      if(ok)prog.wrong=prog.wrong.filter(n=>n!==q.n);
+      save();render();
+    };
+  }
+  function showRes6(){
+    const total=EXAM.length;
+    const score=Object.values(prog.exam).filter(v=>v).length;
+    const pct=Math.round(score/total*100);save();
+    app.innerHTML=`<div class="res"><div class="big">${score}<small>/${total}</small></div><div class="pill">${pct}% 정답률</div>
+    <h3>${pct>=90?'완벽해요!':pct>=80?'훌륭해요!':pct>=70?'잘했어요!':pct>=60?'조금 더 노력해요!':'개념부터 다시 잡아요!'}</h3>
+    <p>실전 50제 완료</p>
+    <div class="acts"><button class="btn btn-sec" onclick="home()">홈으로</button>${prog.wrong.length?`<button class="btn btn-pri" onclick="stage6(0,true)">오답 복습</button>`:''}</div></div>`;
+  }
+  render();
+}
+
+/* ===== 오답 복습 / 초기화 ===== */
+function startWrong(){
+  if(!prog.wrong.length){toast('오답 문항이 없어요!');return;}
+  stage6(0,true);
+}
+function resetAll(){
+  if(!confirm('모든 기록을 초기화할까요?'))return;
+  prog={best:{},exam:{},wrong:[]};save();home();toast('기록이 초기화되었어요');
+}
+
+home();
+</script>
+</body>
+</html>
